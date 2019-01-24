@@ -1,6 +1,6 @@
 ---
 title: "How to keep it togetheR"
-subtitle: "List columns in a dataframe"
+subtitle: "List-columns in a dataframe"
 author: "Marc A.T. Teunis, Ph.D."
 date: "`r Sys.Date()`"
 output:
@@ -37,8 +37,8 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE, 
                       message = FALSE, 
                       error = FALSE, 
-                          fig.width = 6,
-                          fig.height = 8)
+                      fig.width = 4,
+                      fig.height = 4)
 ```
 
 ```{r, root, include=FALSE}
@@ -55,18 +55,6 @@ root <- find_root_file(criterion = is_rstudio_project)
  - Validation and development of in-vitro methods for toxicology
  - **SpaRked my interest in R**
 
-## The nineties
-```{r, echo=FALSE, dpi=200}
-knitr::include_graphics(path = file.path(root,
-                                         "images",
-                                         "open_compaq.jpg"))
-```
-
- - Age of the floppy-disk (University email)
- - Combining two computers into one
- - Building websites with MS Frontpage
- - System admin and treasurer for UBV (Bookkeeping skills)
-
 ## What is R to me?
 
  - Every day go-to for analytics of very different types of data
@@ -78,19 +66,25 @@ knitr::include_graphics(path = file.path(root,
 
 ## Contents
 
-List columns and managing many models with `{tidyverse}`
+List-columns and managing many models with `{tidyverse}`
 
  1. Recap: Dataframes, Lists and Iterations
  2. `map()` functions from the `{purrr}` package
- 3. Using list colums (in a dataframe)
- 4. Implementing list columns to create models and graphs
+ 3. Using list-colums (in a dataframe)
+ 4. Implementing list-columns to create models and graphs
 
- PART I: Starter (for today)
+ PART I: FIRST STEPS (for today) 
  
- PART II: More List-columns (do-it-yourself) 
+ PART II: MORE LIST-COLUMNS (do-it-yourself) 
 
-# PART I
-  
+# PART I: FIRST STEPS (slide 7-)
+
+Clone the repository from:
+
+`https://github.com/uashogeschoolutrecht/rcafe` or login
+
+`http://rcafe.hudatascience.nl` with user credentials on little piece of paper
+
 ## Packages
 The packages used in this tutorial
 ```{r, packages}
@@ -125,15 +119,6 @@ typeof(table)
 ## So dataframes are a special kind of lists?!? 
 ```
 
-## **Discuss with your neighbour** 
- 
- - What is special about a dataframe (as a list), compared to usual lists in R?
- - What is going on with the code below?
-```{r} 
-table[1]
-table[[1]]
-```
-
 ## Column containing a list (in a dataframe)
 ```{r}
 table <- tribble(
@@ -145,42 +130,21 @@ table <- tribble(
 table
 ```
 
-## List-column characteristics
+## Iterate over a dataframe
 ```{r}
-class(table$e)
-is.vector(table$e)
-is.recursive(table$e)
+map(table, class)
 ```
 
-## Loops (or also called 'iterations')
-Apply a function to a vector or list
-
- - Because a dataframe is also a list you can use `map()` on a dataframe
- - There are multiple `map()` functions
- 
- Basic `map()` template
- 
- `map...(LIST, FUNCTION)`
- 
-## Simple iteration examples 
+## Iterate over a list
 ```{r}
-log10(table$b)
-# loop over the individual 'vectors' (columns) in a dataframe
-map(table$e, class)
-# loop over the individual 'vectors' (elements) in a list
 map(table$e, nchar)
 ```
 
-## Iterate to transform
-```{r}
-random_list <- list(a = rnorm(100, mean = 10, sd = 2),
-                 b = rnorm(10, mean = 5, sd = 0.5),
-                 c = rnorm(1000, mean = 100, sd = 20))
-log10_list <- map(random_list, log10)
-map(log10_list, head, 2)
-```
-
 # Case data
+
+Let's switch to RStudio and open the file: 
+
+`demo.Rmd`
 
 ## Data origin
 
@@ -208,69 +172,15 @@ head(pertussis_data_tidy, n = 2)
 names(pertussis_data_tidy)
 ```
 
-## Exploratory graphs
-```{r}
-names(pertussis_data_tidy)
+## For which years is there data recorded?
+```{r, echo=FALSE, fig.width=4, fig.height=4}
 pertussis_data_tidy %>%
   ggplot(aes(x = year, y = annual_pertussis_cases)) +
   geom_point(aes(position = "jitter" ))
 ```
 
-## Exploratory Data Analysis
-
-**Discuss with your neigbour**
-Write a piece of code that displays a graph displaying the change in pertussis cases over time for a number of countries 
-
--- PLEASE DO NOT SCROLL AHEAD --
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Cases by year
-**ONE SOLUTION**
-```{r, echo=FALSE}
-# pertussis_data_tidy
-pertussis_data_tidy %>%
-  na.omit() %>%
-  group_by(country) %>%
-  ggplot(aes(x = year,
-             y = annual_pertussis_cases)) +
-  geom_line(aes(group = country)) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme_bw()
-```
-
-## Transform y-scale to log10, `colour = country`
-**A scond solution**
-```{r, echo=FALSE}
+## Log10 cases by year, `colour = country`
+```{r, echo=FALSE, fig.width=4, fig.height=4}
 pertussis_data_tidy %>%
   na.omit() %>%
   group_by(country) %>%
@@ -283,18 +193,14 @@ pertussis_data_tidy %>%
 ```
 This is a messy graph indeed!!
 
-## Adding a linear regression model for "Netherlands" 
-To reduce the data in the graph we can look at individual countries.
-```{r}
+## Only the Netherlands
+```{r, echo=FALSE, fig.width=4, fig.height=4}
 ## only Netherlands data
 netherlands_data <- pertussis_data_tidy %>%
-  dplyr::filter(country == "Netherlands")
-```
+  dplyr::filter(country == "Netherlands") %>%
+  na.omit() ## for sake of simplicity we remove the years that are missing
 
-## Plot data only NL
-```{r}
-netherlands_data %>% 
-  na.omit() %>% ## for sake of simplicity we remove the years that are missing
+netherlands_data %>%
   ggplot(aes(x = year,
              y = annual_pertussis_cases)) + 
   geom_line() +
@@ -303,17 +209,15 @@ netherlands_data %>%
 ```
 
 ## Plot linear model for NL
-```{r}
+```{r, echo=FALSE, fig.width=4, fig.height=4}
 netherlands_model <- lm(
   annual_pertussis_cases ~ year, 
   data = netherlands_data %>%
     na.omit()
 )
-```
-
 ## plot model for NL
-```{r, echo=FALSE}
-plot_model <- netherlands_data %>%
+
+netherlands_data %>%
   na.omit() %>%
   add_predictions(netherlands_model) %>%
   ggplot(aes(x = year, 
@@ -335,103 +239,15 @@ plot_model <- netherlands_data %>%
 
 ```
 
-## Show model plot
-```{r}
-plot_model
-```
-
-## Plot residuals
-```{r}
-plot_res <- netherlands_data %>%
-  na.omit() %>%
-  add_residuals(netherlands_model) %>% 
-  ggplot(aes(year, resid)) + 
-  geom_hline(yintercept = 0, colour = "white", size = 3) + 
-  geom_line() + 
-  ggtitle("Remaining pattern") 
-
-```
-
-## Plot residuals
-```{r}
-plot_res
-```
-
-## How 'good' is this model?
-```{r}
-## tidyverse innovation
-netherlands_model %>% broom::tidy()
-## classical R output
-summary(netherlands_model)
-```
-
 ## How can we apply this to `every` country 
 without doing the above `r pertussis_data_tidy$country %>% as_factor() %>% levels() %>% length()` times.
 
-## Split the data by country and apply the model to each subset
+## Split the data by country and apply the model or graphing code to each subset
 
- - In fact, data for each country is a dataframe
+ - In fact, data for each country is a subset of the full dataset
  - We can subset the original dataframe into seperate dataframes for each country 
 
-## The classical way:
-`split()` >> `apply()` >> `combine()`
-```{r}
-pertussis_data_tidy_split <- split(pertussis_data_tidy,
-                                   pertussis_data_tidy$country)
-head(pertussis_data_tidy_split[[1]], 2)
-```
-But there is a better way in the `{tidyverse}`
-Here we combine `{tidyr}`, `{purrr}` and `{broom}`
-
-## **Discuss with your neighbour**:
-
- - What could be the downside for the `split()` >> `apply()` >> `combine()` approach?
- 
- -- AGAIN: PLEASE DO NOT SCROLL AHEAD --
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Better way to keep track of your results and models
-
- 1. Write functions that plot and model the data of each subset
- 2. Group the data by the subsetting factor (in our case this could be `country` or even `year`
- 3. Nest the grouped data into a dataframe (inside a list column)
- _Are you following?_
- 4. Apply the functions to your list column (by iteration, using the `map()` family of functions)
- 5. Store the results back into the dataframe as a new list column
- 6. Explore the results inside one big dataframe, the way you are used to
- 7. You can even store graphs this way, you will see!
-
-## Creating a list column with each country as an element in the list (dataframe in a cell of the nested dataframe)
-We also remove the NAs.
+## Using list-columns to keep track of your results and models
 ```{r}
 nested_pertussis <- pertussis_data_tidy %>%
   na.omit() %>%
@@ -440,21 +256,16 @@ nested_pertussis <- pertussis_data_tidy %>%
     nest() 
 
 head(nested_pertussis, 2) ## you see the grouping by country
-head(nested_pertussis$data[[1]], 2) ## you get the individual countries
+head(nested_pertussis$data[[1]], 2) ## you get the individual country df
 ```
 
-## **Discuss with you neighbour**
-
- - How would you label (name) the idividual elements of the list column (`$data`)?
-Write the code below 
+## Label (name) the idividual elements of the list column 
 ```{r, eval=FALSE} 
- 
-
-
+names(nested_pertussis$data) <- nested_pertussis$country 
 ```
  
 ## Linear model for each country
-First we write a function that creates our linear model
+First we write a function that creates the linear model for  one country
 ```{r}
 country_model_lm <- function(df){
   model <- lm(
@@ -464,25 +275,43 @@ country_model_lm <- function(df){
 }
 ```
 
-# Iterate the model function over nested `$data` with `purrr::map()`
+## Iterate the model function over nested `$data` with `purrr::map()`
 ```{r}
 models <- map(
   nested_pertussis$data, country_model_lm
   )
+head(models, 2)
+```
+
+## Extracting information from models the tidy way
+```{r}
+# models[[1]] %>% summary 
+models[[1]] %>% broom::glance()
+models[[1]] %>% broom::glance() %>%
+  pluck("adj.r.squared")
 ```
 
 ## Keep it togetheR
  - We have the models now
- - It is better to store them together with the data
- - Do that by using `dplyr::mutate()` 
+ - Better to store them together with the data
+ - By using `dplyr::mutate()` 
  
 ## Create an additional list-column on the basis of an existing one
 ```{r}
 nested_pertussis <- nested_pertussis %>%
   mutate(models_lm = map(data, country_model_lm))
+# View(nested_pertussis)
+head(nested_pertussis, 2)
 ```
 
-## Extracting model parameters
+## Add model summaries as a list column
+```{r}
+nested_pertussis <- nested_pertussis %>%
+  mutate(models_lm_summary = map(models_lm, summary))
+# View(nested_pertussis)
+```
+
+## Extracting information
 ```{r}
 nested_pertussis <- nested_pertussis %>%
   mutate(params_lm =  map(models_lm, broom::glance)) %>%
@@ -501,7 +330,8 @@ nested_pertussis <- nested_pertussis %>%
   )
 ```
 
-## **Discuss with your neighbour**
+## `map2()`
+
  - What type of arguments does the function `map2()` take?
  - How would you find more information?
 
@@ -514,8 +344,6 @@ head(resids, 2)
 
 ## Plotting all residuals for each country
 ```{r}
-resids <- nested_pertussis$resids[[1]]
-
 plot_resids <- function(resids){
   
   plot <- resids %>% 
@@ -533,7 +361,7 @@ plot_resids <- function(resids){
 ```
 
 ## Nest all plots inside a new list column
-```{r}
+```{r, fig.width=4, fig.height=4}
 nested_pertussis <- nested_pertussis %>%
   mutate(resids_plot = map(resids, plot_resids))
 
@@ -545,9 +373,29 @@ nested_pertussis$resids_plot$Belarus
 ```
 
 ## What can we conclude from these graphs?
-```{r, fig.width=7, fig.height=5}
+```{r, fig.width=3, fig.height=3}
 nested_pertussis$resids_plot$Belgium
 nested_pertussis$resids_plot$Armenia
+```
+
+## Learn more?
+
+'Managing many models with R' by Hadley Wickham - Lecture
+https://www.youtube.com/watch?v=rz3_FDVt9eg
+
+'R for Data Science' by Garret Grolemund & Hadley Wickham
+https://r4ds.had.co.nz/
+Especially chapters:
+21 - https://r4ds.had.co.nz/iteration.html
+25 - https://r4ds.had.co.nz/many-models.html
+
+Study part II below on your own...
+
+##
+```{r, dpi=40, echo=FALSE}
+knitr::include_graphics(path = file.path(root,
+                                         "images",
+                                         "pepper.jpg"))
 ```
 
 
