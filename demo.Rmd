@@ -59,10 +59,11 @@ root <- find_root_file(criterion = is_rstudio_project)
 
  - Every day go-to for analytics of very different types of data
  - Statistical analysis (validation / in vitro studies)
- - Genomics / Microbiome analysis
+ - Genomics (`DESeq2`, `edgeR`, `limma`, `Glimma` )
+ - Microbiome analysis (`Bioconductor` & `qiime2`)
  - Interactivity with `Shiny` and `flexdashboards`
- - Reproducibility is the key
- - Everything in code
+ - Reproducibility (`rmarkdown`, )
+
 
 ## Contents
 
