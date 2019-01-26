@@ -11,10 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Credits
 
-For this course materials have been adapted from:
+For this demo materials have been adapted from:
  
   - Wickham and Grolemund, "R for Data Science", 2017, O'Reily
   - Field et. al., 2015, "Discovering Statistics Using R", Sage Publications Ltd.
+  - RStudio Webinar "How to work with list columns" by Garret Grolemund: https://www.rstudio.com/resources/videos/how-to-work-with-list-columns/
   
 ## Resources:
 
@@ -24,6 +25,7 @@ For this course materials have been adapted from:
  - https://www.youtube.com/watch?v=7UlWJWfZO9M
  - https://www.youtube.com/watch?v=GyNqlOjhPCQ
  - https://www.youtube.com/watch?v=1GmQ5BdAhG4
+ https://www.rstudio.com/resources/videos/how-to-work-with-list-columns/
  
 ### R-bloggers
 
