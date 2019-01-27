@@ -10,31 +10,10 @@ output:
   beamer_presentation:
     highlight: pygments
   pdf_document: default
-subtitle: List-columns in a dataframe
+subtitle: "_List-columns in a dataframe_"
 ---
 
-<style>
 
-.footer {
-    font-size: 16pt;
-    color: Black;
-    font-family: 'Calibri'
-    content: attr(label);
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    text-align:center;
-    bottom: 10px;
-    line-height: 1.9;
-    display: block;
-}
-
-</style>
-
-<div class="footer" style="margin-top;font-size:120%;"> 
-Using list-columns - Demo for the R Cafe Universiteit Utrecht, 28 January 2019 </div>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
@@ -52,13 +31,7 @@ root <- find_root_file(criterion = is_rstudio_project)
 
 ```
 
-## Who am I?
-
- - Background in (Medical) Biology
- - PhD in (Psycho)Neuroimmunology (WKZ - UMCU)
- - Validation and development of in-vitro 
- methods for toxicology (Hogeschool Utrecht)
- - **SpaRked my interest in R**
+# Demo for the Utrecht University R Cafe, 28 January 2019
 
 ## What is R to me?
 
@@ -77,13 +50,13 @@ root <- find_root_file(criterion = is_rstudio_project)
 
  PART I: Starting with List-columns 
  
-**There is more than we can cover today**
+**There is more in the tutorial than we can cover today**
 
  PART II: MORE LIST-COLUMNS (do-it-yourself) 
 
 ## Getting access and materials
 
-Clone the repository to your RStudio Env. from:
+Clone the repository to your RStudio Environment from:
 
 `https://github.com/uashogeschoolutrecht/rcafe` or login
 
