@@ -46,7 +46,7 @@ root <- find_root_file(criterion = is_rstudio_project)
  - Text mining `{tidytext}`, `{igraph}`, `{ggiraph}`
  - Visualizations `{ggplot2}`, `{tidygraph}`, `{gganimate}`, `{tmap}`
 
-## Content for today
+## Contents for today
 
  PART I: Starting with List-columns 
  
@@ -54,12 +54,17 @@ root <- find_root_file(criterion = is_rstudio_project)
 
  PART II: MORE LIST-COLUMNS (do-it-yourself) 
 
-## 
-```{r, echo=FALSE, out.width= "1000px"}
-knitr::include_graphics(path = file.path(root,
-                                         "images",
-                                         "ground_to_cover.jpg"))
-```
+## Prequisites and presumptions
+See "resources.html" for tips on learning:
+
+ - Familiar with RStudio
+ - Heard of Github
+ - Import data with `{readr}` 
+ - Tidy data with `{tidyr}` 
+ - Data wrangling with  `{dplyr}` 
+ - Using `lapply()` and/or `map()` for loops
+ - Visualize data with `{ggplot2}` 
+ - This is no 'statistics lesson'
 
 ## Getting access and materials
 
@@ -83,14 +88,12 @@ library(purrr)
 library(repurrrsive)
 ```
 
-## Prequisites
-See "resources.html" for tips on learning:
-
- - Import data with `{readr}` 
- - Tidy data with `{tidyr}` 
- - Data wrangling with  `{dplyr}` 
- - Using `lapply()` and/or `map()` for loops
- - Visualize data with `{ggplot2}` 
+## 
+```{r, echo=FALSE, out.width= "1000px"}
+knitr::include_graphics(path = file.path(root,
+                                         "images",
+                                         "ground_to_cover.jpg"))
+```
 
 ## Dataframes and lists are recursive vectors
 ```{r, recursive_vectors}

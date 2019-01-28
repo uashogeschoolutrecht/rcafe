@@ -1,4 +1,4 @@
-### render demo.Rmd
+### render all demo materials
 
 
 rmarkdown::render(input = "./demo.Rmd",
