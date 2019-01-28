@@ -36,23 +36,30 @@ root <- find_root_file(criterion = is_rstudio_project)
 ## What is R to me?
 
  - Every day go-to for analytics of very different types of data
- - Statistical analysis (`{lme}`, `{lme4}`, `{nlme}`)
- - Genomics (`{DESeq2}`, `{edgeR}`, `{limma}`, `{Glimma}` )
- - Microbiome analysis (`Bioconductor` & `qiime2`)
+ - Statistical analysis `{lme}`, `{lme4}`, `{nlme}`
+ - Genomics `{DESeq2}`, `{edgeR}`, `{limma}`, `{Glimma}`
+ - Microbiome analysis `Bioconductor` & `qiime2`
  - Interactivity with `{Shiny}` and `{flexdashboards}`
- - Reproducibility (`{rmarkdown}`, `{bookdown}`, `{blogdown}`)
- - Tutorials and teaching (`{learnr}`, `{reticulate}` (combine Python & R))
- - Getting data (`{plumber}`, `{getGEO}`, `{rentrez}`)
- - Text mining (`{tidytext}`, `{igraph}`, `{ggiraph}`)
- - Visualizations (`{ggplot2}`, `{tidygraph}`, `{gganimate}`, `{tmap}`)
+ - Reproducibility `{rmarkdown}`, `{bookdown}`, `{blogdown}`
+ - Tutorials and teaching `{learnr}`, `{reticulate}` -- combine Python & R
+ - Getting data `{plumber}`, `{getGEO}`, `{rentrez}`
+ - Text mining `{tidytext}`, `{igraph}`, `{ggiraph}`
+ - Visualizations `{ggplot2}`, `{tidygraph}`, `{gganimate}`, `{tmap}`
 
 ## Content for today
 
  PART I: Starting with List-columns 
  
-**There is more in the tutorial than we can cover today**
+**There is more in this demo than we can cover today**
 
  PART II: MORE LIST-COLUMNS (do-it-yourself) 
+
+## 
+```{r, echo=FALSE, out.width= "1000px"}
+knitr::include_graphics(path = file.path(root,
+                                         "images",
+                                         "ground_to_cover.jpg"))
+```
 
 ## Getting access and materials
 
@@ -79,10 +86,10 @@ library(repurrrsive)
 ## Dataframes and lists are recursive vectors
 ```{r, recursive_vectors}
 table1 <- tribble(
-  ~ a, ~b, ~c, ~d, 
-  "x", 1, TRUE, 1.45, 
-  "y", 2, FALSE, 3.88,
-  "z", 3, TRUE, 33.5
+  ~a,    ~b,  ~c,     ~d, 
+  "x",   1,   TRUE,   1.45, 
+  "y",   2,   FALSE,  3.88,
+  "z",   3,   TRUE,   33.5
   ) 
 table1
 is.atomic(table1$a)
@@ -211,8 +218,8 @@ netherlands_data %>%
 
 ```
 
-## How can we apply this to `every` country 
-without doing the above `r pertussis_data_tidy$country %>% as_factor() %>% levels() %>% length()` times.
+## How can we apply this to `every` country in the dataset? 
+Without doing the above `r pertussis_data_tidy$country %>% as_factor() %>% levels() %>% length()` times
 
 ## Split the data by country and apply the model or graphing code to each subset
 
@@ -241,7 +248,7 @@ head(nested_pertussis$data, 1)
 ```
  
 ## Linear model for each country
-First we write a function that creates the linear model for  one country
+First we write a function that creates the linear model for one country
 ```{r}
 country_model_lm <- function(df){
   model <- lm(
@@ -395,7 +402,8 @@ For another day...
 
 ## Looking at quantative statistical measures for model quality
 ```{r}
-r_squared <- nested_pertussis %>% 
+r_squared <- nested_pertussis %>%
+  dplyr::filter(country != "Monaco") %>% ## remove Monaco (incomplete data)
   mutate(glance = map(models_lm, broom::glance)) %>% 
   unnest(glance, drop = TRUE) %>%
   select(country, r.squared, AIC, BIC) %>%
@@ -446,7 +454,7 @@ low_r_squared_nested %>%
  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
-What is happening with the pertussis vaccination grade over the past 8 years? 
+What is happening to the pertussis vaccination grade over the past 8 years? 
 
 ## Store ggplot2 objects in a list-column
  1. Create a function that makes the plot
@@ -671,9 +679,10 @@ nested_pertussis$plots_cases_over_time$Ireland+
 ## Learn more?
 To practice with more examples have a look at
 ```{r}
-# repurrrsive
+source(file = file.path(root, "R", "render_help.R"))
+help_console(topic = "repurrrsive")
+help_console(topic = "purrr")
 ```
-
 
 ## Disclaimer & Licence
 
