@@ -78,35 +78,37 @@ library(repurrrsive)
 
 ## Dataframes and lists are recursive vectors
 ```{r, recursive_vectors}
-table <- tribble(
+table1 <- tribble(
   ~ a, ~b, ~c, ~d, 
   "x", 1, TRUE, 1.45, 
   "y", 2, FALSE, 3.88,
   "z", 3, TRUE, 33.5
   ) 
-table
-is.atomic(table$a)
+table1
+is.atomic(table1$a)
 ```
 
 ## Column containing a list (in a dataframe)
 ```{r}
-table <- tribble(
+table2 <- tribble(
   ~ a,      ~b,      ~c,       ~d,     ~e, 
-  "x",      1,       TRUE,     1.45,   numbers = 1:10,
-  "y",      2,       FALSE,    3.88,   lgl = c(TRUE, FALSE),
-  "z",      3,       TRUE,     33.5,   city = "Utrecht"   
+  "x",      1,       TRUE,     1.45,   1:10,
+  "y",      2,       FALSE,    3.88,   c(TRUE, FALSE),
+  "z",      3,       TRUE,     33.5,   "Utrecht"   
   ) 
-is.list(table$e)
+
+is.list(table2$e)
+is.vector(table2$e)
 ```
 
 ## Iterate over a dataframe
 ```{r}
-map(table, class)
+map(table1, class)
 ```
 
 ## Iterate over a list-column
 ```{r}
-map(table$e, nchar)
+map(table2$e, nchar)
 ```
 
 ## Case data

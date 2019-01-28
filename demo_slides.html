@@ -98,7 +98,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">Last update: 2019-01-26 13:09:12</p>
+            <p style="margin-top: 6px; margin-left: -2px;">Last update: 2019-01-27 21:20:53</p>
           </hgroup>
   </slide>
 
@@ -150,13 +150,13 @@ library(repurrrsive)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Dataframes and lists are recursive vectors</h2></hgroup><article  id="dataframes-and-lists-are-recursive-vectors">
 
-<pre class = 'prettyprint lang-r'>table &lt;- tribble(
+<pre class = 'prettyprint lang-r'>table1 &lt;- tribble(
   ~ a, ~b, ~c, ~d, 
   &quot;x&quot;, 1, TRUE, 1.45, 
   &quot;y&quot;, 2, FALSE, 3.88,
   &quot;z&quot;, 3, TRUE, 33.5
   ) 
-table</pre>
+table1</pre>
 
 <pre >## # A tibble: 3 x 4
 ##   a         b c         d
@@ -165,25 +165,30 @@ table</pre>
 ## 2 y         2 FALSE  3.88
 ## 3 z         3 TRUE  33.5</pre>
 
-<pre class = 'prettyprint lang-r'>is.atomic(table$a)</pre>
+<pre class = 'prettyprint lang-r'>is.atomic(table1$a)</pre>
 
 <pre >## [1] TRUE</pre>
 
 </article></slide><slide class=""><hgroup><h2>Column containing a list (in a dataframe)</h2></hgroup><article  id="column-containing-a-list-in-a-dataframe">
 
-<pre class = 'prettyprint lang-r'>table &lt;- tribble(
+<pre class = 'prettyprint lang-r'>table2 &lt;- tribble(
   ~ a,      ~b,      ~c,       ~d,     ~e, 
-  &quot;x&quot;,      1,       TRUE,     1.45,   numbers = 1:10,
-  &quot;y&quot;,      2,       FALSE,    3.88,   lgl = c(TRUE, FALSE),
-  &quot;z&quot;,      3,       TRUE,     33.5,   city = &quot;Utrecht&quot;   
+  &quot;x&quot;,      1,       TRUE,     1.45,   1:10,
+  &quot;y&quot;,      2,       FALSE,    3.88,   c(TRUE, FALSE),
+  &quot;z&quot;,      3,       TRUE,     33.5,   &quot;Utrecht&quot;   
   ) 
-is.list(table$e)</pre>
+
+is.list(table2$e)</pre>
+
+<pre >## [1] TRUE</pre>
+
+<pre class = 'prettyprint lang-r'>is.vector(table2$e)</pre>
 
 <pre >## [1] TRUE</pre>
 
 </article></slide><slide class=""><hgroup><h2>Iterate over a dataframe</h2></hgroup><article  id="iterate-over-a-dataframe">
 
-<pre class = 'prettyprint lang-r'>map(table, class)</pre>
+<pre class = 'prettyprint lang-r'>map(table1, class)</pre>
 
 <pre >## $a
 ## [1] &quot;character&quot;
@@ -195,14 +200,11 @@ is.list(table$e)</pre>
 ## [1] &quot;logical&quot;
 ## 
 ## $d
-## [1] &quot;numeric&quot;
-## 
-## $e
-## [1] &quot;list&quot;</pre>
+## [1] &quot;numeric&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Iterate over a list-column</h2></hgroup><article  id="iterate-over-a-list-column">
 
-<pre class = 'prettyprint lang-r'>map(table$e, nchar)</pre>
+<pre class = 'prettyprint lang-r'>map(table2$e, nchar)</pre>
 
 <pre >## [[1]]
 ##  [1] 1 1 1 1 1 1 1 1 1 2

@@ -187,7 +187,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">How to keep it togetheR</h1>
 <h3 class="subtitle"><em><em>List-columns in a dataframe</em></em></h3>
 <h4 class="author"><em>Marc A.T. Teunis, Ph.D. - Hogeschool Utrecht, Lab. Innovative Testing</em></h4>
-<h4 class="date"><em>Last update: 2019-01-26 13:09:30</em></h4>
+<h4 class="date"><em>Last update: 2019-01-27 21:21:13</em></h4>
 
 </div>
 
@@ -234,36 +234,39 @@ library(repurrrsive)</code></pre>
 </div>
 <div id="dataframes-and-lists-are-recursive-vectors" class="section level2">
 <h2>Dataframes and lists are recursive vectors</h2>
-<pre class="r"><code>table &lt;- tribble(
+<pre class="r"><code>table1 &lt;- tribble(
   ~ a, ~b, ~c, ~d, 
   &quot;x&quot;, 1, TRUE, 1.45, 
   &quot;y&quot;, 2, FALSE, 3.88,
   &quot;z&quot;, 3, TRUE, 33.5
   ) 
-table</code></pre>
+table1</code></pre>
 <pre><code>## # A tibble: 3 x 4
 ##   a         b c         d
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;lgl&gt; &lt;dbl&gt;
 ## 1 x         1 TRUE   1.45
 ## 2 y         2 FALSE  3.88
 ## 3 z         3 TRUE  33.5</code></pre>
-<pre class="r"><code>is.atomic(table$a)</code></pre>
+<pre class="r"><code>is.atomic(table1$a)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="column-containing-a-list-in-a-dataframe" class="section level2">
 <h2>Column containing a list (in a dataframe)</h2>
-<pre class="r"><code>table &lt;- tribble(
+<pre class="r"><code>table2 &lt;- tribble(
   ~ a,      ~b,      ~c,       ~d,     ~e, 
-  &quot;x&quot;,      1,       TRUE,     1.45,   numbers = 1:10,
-  &quot;y&quot;,      2,       FALSE,    3.88,   lgl = c(TRUE, FALSE),
-  &quot;z&quot;,      3,       TRUE,     33.5,   city = &quot;Utrecht&quot;   
+  &quot;x&quot;,      1,       TRUE,     1.45,   1:10,
+  &quot;y&quot;,      2,       FALSE,    3.88,   c(TRUE, FALSE),
+  &quot;z&quot;,      3,       TRUE,     33.5,   &quot;Utrecht&quot;   
   ) 
-is.list(table$e)</code></pre>
+
+is.list(table2$e)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.vector(table2$e)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="iterate-over-a-dataframe" class="section level2">
 <h2>Iterate over a dataframe</h2>
-<pre class="r"><code>map(table, class)</code></pre>
+<pre class="r"><code>map(table1, class)</code></pre>
 <pre><code>## $a
 ## [1] &quot;character&quot;
 ## 
@@ -274,14 +277,11 @@ is.list(table$e)</code></pre>
 ## [1] &quot;logical&quot;
 ## 
 ## $d
-## [1] &quot;numeric&quot;
-## 
-## $e
-## [1] &quot;list&quot;</code></pre>
+## [1] &quot;numeric&quot;</code></pre>
 </div>
 <div id="iterate-over-a-list-column" class="section level2">
 <h2>Iterate over a list-column</h2>
-<pre class="r"><code>map(table$e, nchar)</code></pre>
+<pre class="r"><code>map(table2$e, nchar)</code></pre>
 <pre><code>## [[1]]
 ##  [1] 1 1 1 1 1 1 1 1 1 2
 ## 

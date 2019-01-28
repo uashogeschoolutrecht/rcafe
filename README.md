@@ -7,7 +7,7 @@ Some of the materials used in this demo were derived from materials from the RSt
 For a full list of resources and credits see the file "resources"
 
 # Demo
-The core file in this repository is the file "demo.Rmd". Run the tutorial from there. If you want to use the materials, please provide credit to the resources and the author of the material
+The core file in this repository are the "demo_\*.\*" files. Run the tutorial from there. If you want to use the materials, please provide credit to the resources and the author of the material
 
 # Licence
 CC-BY SA
