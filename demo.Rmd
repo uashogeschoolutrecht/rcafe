@@ -3,13 +3,13 @@ title: "How to keep it togetheR"
 author: "Marc A.T. Teunis, Ph.D. - Hogeschool Utrecht, Lab. Innovative Testing"
 date: "Last update: `r Sys.time()`"
 output:
+  pdf_document: default
+  html_document: default
   ioslides_presentation:
     highlight: pygments
     widescreen: yes
-  html_document: default
   beamer_presentation:
     highlight: pygments
-  pdf_document: default
 subtitle: "_List-columns in a dataframe_"
 ---
 
@@ -65,9 +65,9 @@ knitr::include_graphics(path = file.path(root,
 
 Clone the repository to your RStudio Environment from:
 
-`https://github.com/uashogeschoolutrecht/rcafe` or login
+https://github.com/uashogeschoolutrecht/rcafe or login
 
-`http://rserverkcgdl.hudatascience.nl` with 
+http://rserverkcgdl.hudatascience.nl with 
 
 login: ...
 passwd: ...
@@ -82,6 +82,15 @@ library(broom)
 library(purrr)
 library(repurrrsive)
 ```
+
+## Prequisites
+See "resources.html" for tips on learning:
+
+ - Import data with `{readr}` 
+ - Tidy data with `{tidyr}` 
+ - Data wrangling with  `{dplyr}` 
+ - Using `lapply()` and/or `map()` for loops
+ - Visualize data with `{ggplot2}` 
 
 ## Dataframes and lists are recursive vectors
 ```{r, recursive_vectors}
@@ -242,9 +251,9 @@ head(nested_pertussis$data[[1]], 2) ## you get the individual country df
 ```
 
 ## Label (name) the idividual elements of the list column 
-```{r, eval=FALSE} 
+```{r} 
 names(nested_pertussis$data) <- nested_pertussis$country 
-head(nested_pertussis$data, 1)
+head(nested_pertussis$data[1]) 
 ```
  
 ## Linear model for each country
@@ -411,7 +420,7 @@ r_squared <- nested_pertussis %>%
 ```
 
 ## Plotting r.sqared values
-```{r, echo=FALSE, fig.width=6, fig.height=4}
+```{r, echo=FALSE, fig.width=8, fig.height=12}
 r_squared %>%
   ggplot(aes(x = reorder(as_factor(country), r.squared),
              y = r.squared)) +
@@ -487,7 +496,7 @@ nested_pertussis <- nested_pertussis %>%
 
 ```
 
-## Add countries as names to nest-column
+## Add countries as names to new list-column
 ```{r, fig.width=6, fig.height=4}
 names(nested_pertussis$plots_cases_over_time) <- 
   c(nested_pertussis$country)
@@ -497,7 +506,8 @@ nested_pertussis$plots_cases_over_time[1]
 
 ## Pull out "The Netherlands"
 ```{r, fig.width=6, fig.height=4}
-nested_pertussis$plots_cases_over_time$Netherlands
+nested_pertussis$plots_cases_over_time$Netherlands # or
+# pluck(nested_pertussis$plots_cases_over_time, "Netherlands") + ggtitle("The Netherlands")
 ```
 
 ## Plotting a panel of 4 graphs
@@ -508,7 +518,9 @@ grid <- cowplot::plot_grid(
   nested_pertussis$plots_cases_over_time$Ukraine,
   nested_pertussis$plots_cases_over_time$Netherlands, 
   labels = c("Armenia", "Austria", "Ukraine", "Netherlands"),
-  scale = 0.7, hjust = c(-0.7, -0.8, -0.8, -0.5))
+  scale = 0.7, 
+  hjust = c(-0.7, -0.8, 
+            -0.8, -0.5)) ## aligning the titles is a bit hard
 grid
 ```
 
@@ -678,7 +690,7 @@ nested_pertussis$plots_cases_over_time$Ireland+
 
 ## Learn more?
 To practice with more examples have a look at
-```{r}
+```{r, eval=FALSE}
 source(file = file.path(root, "R", "render_help.R"))
 help_console(topic = "repurrrsive")
 help_console(topic = "purrr")

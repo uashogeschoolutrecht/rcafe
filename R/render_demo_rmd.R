@@ -12,3 +12,7 @@ rmarkdown::render(input = "./demo.Rmd",
 rmarkdown::render(input = "./demo.Rmd",
                   output_format = "pdf_document",
                   output_file = "demo_walkthrough.pdf")
+
+rmarkdown::render(input = "./resources.Rmd",
+                  output_format = "html_document",
+                  output_file = "resources.html")
